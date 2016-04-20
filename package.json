@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "form-data": "^1.0.0-rc4",
     "lwip": "0.0.8"
   }
 }

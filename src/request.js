@@ -1,5 +1,6 @@
 const https = require('https');
 const parse = require('url').parse;
+const FormData = require('form-data');
 
 function request(u) {
   const url = parse(u);
@@ -23,10 +24,16 @@ function request(u) {
           resolve(response);
         });
       });
-      if (options.data && (options.method === 'POST' || options.method === 'PUT')) {
+      request.on('error', reject);
+
+      if (options.form) {
+        return options.form.pipe(request);
+      }
+
+      if (options.data && options.headers['content-type'] === 'application/json') {
         request.write(options.data);
       }
-      request.on('error', reject);
+
       request.end();
     });
   }
@@ -42,8 +49,19 @@ function request(u) {
   }
 
   function json(data) {
-    header('Content-Type', 'application/json');
+    header('content-type', 'application/json');
     options.data = JSON.stringify(data);
+    return this;
+  }
+
+  function form(key, content) {
+    if (!options.form) {
+      options.form = new FormData();
+      options.headers = options.form.getHeaders(options.headers);
+    }
+
+    options.form.append(key, content);
+
     return this;
   }
 
@@ -72,6 +90,7 @@ function request(u) {
     then: then,
     header: header,
     json: json,
+    form: form,
     post: post,
     get: get,
     put: put,
