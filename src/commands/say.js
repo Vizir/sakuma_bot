@@ -13,6 +13,21 @@ function say(message) {
         .form('chat_id', message.chat.id)
         .form('photo', fs.createReadStream(`images/sakuma${message.chat.id}${message.message_id}.jpg`))
         .then(() => fs.unlinkSync(`images/sakuma${message.chat.id}${message.message_id}.jpg`));
+    })
+    .catch((e) => {
+      return request
+        .post(`https://api.telegram.org/bot${process.env.API_KEY}/sendMessage`)
+        .json({
+          chat_id: message.chat.id,
+          text: e.message || e
+        })
+        .then(() => fs.unlinkSync(`images/sakuma${message.chat.id}${message.message_id}.jpg`))
+        .catch((e) => {
+          if (e.code === 'ENOENT') {
+            return Promise.resolve();
+          }
+          return e;
+        });
     });
 }
 

@@ -7,7 +7,7 @@ function isCommand(message) {
     return false;
   }
 
-  return message.entities.some(function (entity) {
+  return message.entities.some((entity) => {
     return entity.type === 'bot_command'
   });
 }
