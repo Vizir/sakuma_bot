@@ -7,10 +7,8 @@ function image(inputFile) {
     return new Promise((resolve, reject) => {
 
       const c = `
-        convert -size 100x14 xc:none -gravity ${options.textLoc} -geometry ${options.textOffset} \
-                -stroke black -strokewidth 2 -annotate 0 '${options.text}' \
-                -background none -shadow 10x1+0+0 +repage \
-                -stroke none -fill black     -annotate 0 '${options.text}' \
+        convert -size 200x100 xc:none -gravity ${options.textLoc} -geometry ${options.textOffset} \
+                -stroke none -fill black -pointsize 36  -gravity center -annotate 0 '${options.text}' \
                 ${options.inputFile}  +swap -gravity ${options.textLoc} -geometry ${options.textOffset} \
                 -composite  ${options.outputFile}
       `;
