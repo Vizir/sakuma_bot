@@ -3,7 +3,7 @@ sakuma:
   working_dir: /bot
   environment:
     - API_KEY=216594035:AAFp4_eIuVnc_p8E4EWw7yGkBRwsKGZWTP4
-    - HOOK_URL=https://6e4106d8.ngrok.io
+    - HOOK_URL=https://afa41c74.ngrok.io
     - PORT=3000
   volumes:
     - .:/bot

@@ -1,5 +1,6 @@
 const commands = {
-  '/say': require('./commands/say')
+  '/say': require('./commands/say'),
+  '/approve': require('./commands/approve')
 };
 
 function isCommand(message) {
@@ -16,6 +17,9 @@ function parseMessage(message) {
   const entity = message.entities[0];
   const text = message.text.split('');
   message.command = text.splice(entity.offset, entity.offset + entity.length).join('');
+  if (message.command.indexOf('@') >= 0) {
+    message.command = message.command.split('').splice(entity.offset, message.command.indexOf('@')).join('');
+  }
   text.shift();
   message.text = text.join('');
   return message;

@@ -6,6 +6,17 @@ function say(message) {
   var rawImage = 'images/raw_sakuma.jpg';
   var destImage = `images/sakuma${message.chat.id}${message.message_id}.jpg`;
   var textYPos = 155 - (message.text.split('\n').length * 7);
+
+  if (!message.text) {
+    return request
+      .post(`https://api.telegram.org/bot${process.env.API_KEY}/sendMessage`)
+      .json({
+        chat_id: message.chat.id,
+        text: 'Me manda um texto! Não pode ser muito grande! Ex: "/say Oi mundo!"'
+      })
+      .exec();
+  }
+
   return image(rawImage)
     .to(destImage)
     .addText(message.text, 'northwest', `+50+${textYPos}`)
